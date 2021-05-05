@@ -1,9 +1,9 @@
-class Timer {
+class MyTimer {
 public:
-	Timer(boost::asio::io_context& ctx)
+	MyTimer(boost::asio::io_context& ctx)
 		: timer_(ctx) {
 	}	
-	~Timer() {
+	~MyTimer() {
 		try {
 			timer_.cancel();
 		} catch (const std::exception& e) {
@@ -14,7 +14,7 @@ public:
 public:
 	void Run() {
 		timer_.expires_after(std::chrono::seconds(1));
-		timer_.async_wait(std::bind(&Timer::TimeoutHandler, this, std::placeholders::_1));
+		timer_.async_wait(std::bind(&MyTimer::TimeoutHandler, this, std::placeholders::_1));
 	} 
 
 private:
@@ -32,7 +32,7 @@ private:
 		if (count < 5) {
 			std::cout << "run one more time" << std::endl;
 			timer_.expires_after(std::chrono::seconds(1));
-			timer_.async_wait(std::bind(&Timer::TimeoutHandler, this, std::placeholders::_1));
+			timer_.async_wait(std::bind(&MyTimer::TimeoutHandler, this, std::placeholders::_1));
 			++count;
 		} else {
 			std::cout << "timer exit" << std::endl;
@@ -47,9 +47,13 @@ int main(int argc, char* argv[])
 {
 	try {
 		boost::asio::io_context ctx;
-		Timer timer(ctx);
+		// in order not to exit when there is no more work to do.
+		boost::asio::executor_work_guard<boost::asio::io_context::executor_type> work = boost::asio::make_work_guard(ctx);
+
+		MyTimer timer(ctx);
 		timer.Run();
 		ctx.run();
+
 	} catch (std::exception& e) {
 		std::cerr << "Error occurred: " << e.what() << std::endl;
 	}
