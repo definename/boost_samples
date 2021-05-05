@@ -1,0 +1,13 @@
+set(PROPERTY_FOLDER "_asio")
+
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/async-work)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/simple)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/signal_set)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/downloader)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/socket)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/resolver)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/openproxy)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/opennat)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/opennattest)
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/iptonetwok)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/timer)

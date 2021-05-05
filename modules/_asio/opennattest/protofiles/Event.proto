@@ -1,0 +1,17 @@
+package test.opennat;
+
+message Heartbeat
+{
+	enum Type
+	{
+		Ping = 1;
+		Pong = 2;
+	}
+
+	optional Type type = 1;
+}
+
+message Greeting
+{
+	required string client_id = 1;
+}

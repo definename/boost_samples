@@ -1,0 +1,8 @@
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/async-client)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/async-client-ssl)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/async-echo-client)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/async-echo-server)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/async-server)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/async-server-ssl)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/sync-client)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/sync-server)

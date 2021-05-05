@@ -1,0 +1,5 @@
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/boost_log)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/global)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/trivial)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/severity)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/severity_channel)

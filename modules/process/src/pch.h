@@ -1,0 +1,15 @@
+#pragma once
+
+//////////////////////////////////////////////////////////////////////////
+// STL includes and definitions.
+//
+
+#include <iostream>
+
+//////////////////////////////////////////////////////////////////////////
+// Boost includes and definitions.
+//
+
+#include <boost/process.hpp>
+#include <boost/process/windows.hpp>
+#include <boost/process/extend.hpp>

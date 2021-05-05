@@ -1,0 +1,118 @@
+package opennat;
+
+message Protocol
+{
+	optional string delimiter = 1 [default = "@сhunk"];
+}
+
+message Command
+{
+	enum Protocol
+	{
+		Connect = 1;
+		P2P = 2;
+		Heartbeat = 3;
+		Subscribe = 4;
+		Data = 5;
+	}
+
+	required Protocol protocol = 1;
+	optional Connect connect = 2;
+	optional P2P p2p = 3;
+	optional Heartbeat heartbeat = 4;
+	optional Subscribe subscribe = 5;
+	optional bytes data = 6;
+}
+
+message Connect
+{
+	enum Protocol
+	{
+		Request = 1;
+		Reply = 2;
+	}
+
+	enum Type
+	{
+		Direct = 1;
+		Proxyup = 2;
+		Proxydown = 3;
+		Stun = 4;
+	}
+
+	required Protocol protocol = 1;
+	required Type type = 2;
+	optional string client_id = 3;
+	optional bool initialized = 4 [default = false];
+	optional bool ready = 5 [default = false];
+	optional Endpoint external = 6;
+}
+
+message P2P
+{
+	enum Protocol
+	{
+		Error = 1;
+		MakeDirect = 2;
+		MakeProxy = 3;
+		Data = 4;
+	}
+
+	required Protocol protocol = 1;
+	optional Error error = 2;
+	optional string from = 3;
+	optional string to = 4;
+	optional MakeDirect make_direct = 5;
+	optional MakeProxy make_proxy = 6;
+	optional bytes data = 7;
+}
+
+message Error
+{
+	enum Protocol
+	{
+		Unreachable = 1;
+	}
+
+	required Protocol protocol = 1;
+	optional string msg = 2;
+}
+
+message MakeDirect
+{
+	optional Error error = 1;
+	optional string session_id = 2;
+	optional Endpoint external = 3;
+	optional Endpoint internal = 4;
+}
+
+message MakeProxy
+{
+	optional string session_id = 1;
+}
+
+message Endpoint
+{
+	optional string address = 1;
+	optional string port = 2;
+	optional string network = 3;
+}
+
+message Heartbeat
+{
+	optional bool ping = 1 [default = false];
+	optional bool pong = 2 [default = false];
+}
+
+message Subscribe
+{
+	enum Protocol
+	{
+		Request = 1;
+		Reply = 2;
+	}
+
+	required Protocol protocol = 1;
+	optional string client_id = 2;
+	optional bool online = 3 [default = false];
+}
