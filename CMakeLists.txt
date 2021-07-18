@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.19)
 
+set(BUILD_WITH_STATIC_RUNTIME_LIBRARY ON)
 if(WIN32)
-	set(BUILD_WITH_MSVC_STATIC_RUNTIME_LIBRARY OFF CACHE BOOL "Select the MSVC static runtime")
-	if(${BUILD_WITH_MSVC_STATIC_RUNTIME_LIBRARY})
+	set(BUILD_WITH_STATIC_RUNTIME_LIBRARY ${BUILD_WITH_MSVC_STATIC_RUNTIME_LIBRARY})
+	if(${BUILD_WITH_STATIC_RUNTIME_LIBRARY})
 		set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 	else()
 		set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
@@ -35,9 +36,31 @@ set(PATCH_PATH ${EXTERNAL_PATH}/patches)
 # External install directory path
 set(EXTERNAL_INSTALL_PATH ${CMAKE_BINARY_DIR}/external)
 
-SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm400")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest")
+set(CMAKE_CXX_STANDARD 14)
+if(WIN32)
+	SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm400")
+	# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest")
+endif()
+
+###########################################################
+# Boost
+
+set(Boost_DEBUG ON)
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME ${BUILD_WITH_STATIC_RUNTIME_LIBRARY})
+find_package(Boost
+	1.72.0
+	REQUIRED
+	COMPONENTS
+		filesystem
+		system
+		thread
+		program_options
+		serialization
+		# log
+	)
 
 ###########################################################
 # OpenSSL #################################################
@@ -55,19 +78,6 @@ if (BUILD_WITH_OPENSSL)
 
 	find_package(OpenSSL REQUIRED)
 endif()
-
-###########################################################
-# Boost ###################################################
-set(Boost_USE_STATIC_LIBS ON)
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME ${BUILD_WITH_MSVC_STATIC_RUNTIME_LIBRARY})
-find_package(Boost REQUIRED COMPONENTS
-	filesystem
-	thread
-	program_options
-	serialization
-	log
-	)
 
 ###########################################################
 # MINIUPNPC ###############################################
@@ -188,3 +198,5 @@ add_subdirectory(modules/_asio)
 # add_subdirectory(modules/assign)
 # add_subdirectory(modules/process)
 # add_subdirectory(modules/agent_uuid)
+
+add_custom_target(genexdebug ALL COMMAND ${CMAKE_COMMAND} -E echo "$<IF:$<CONFIG:Debug>,buildDebug,buildRelease>")
