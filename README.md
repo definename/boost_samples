@@ -11,7 +11,7 @@ configure to build serialization only and set directory to install sources
 ./bootstrap.sh --with-libraries=serialization --prefix=/home/olehk/extra/boost/boost172
 
 actually build...
-/b2 --build-dir=/home/olehk/extra/boost/boost172/build variant=release link=static threading=multi runtime-link=static
+./b2 --build-dir=/home/olehk/extra/boost/boost172/build variant=release link=static threading=multi runtime-link=static
 
 and install
 ./b2 install
